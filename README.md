@@ -13,5 +13,7 @@ In publisher.py file, we use socket(PUB) connect all server using 5556 port.
 In DHTServer.py file, we use two sockets. socket(SUB), this socket bind all IP using port 5556; socket2(PUB), this socket bind all IP using port 5550
 In subscriber.py file, we use two sockets. socket(SUB), connects to the server which stores the subscribed topic using port 5550; solverSocket(PUB), connects all servers except failed one using port 5556
 
-before publisher failed, it will send the topic and string 'pubfailed' to all servers, servers will send it to subscribers who
-before server failed, it will send its ip
+before publisher failed, it will send the topic and string 'pubfailed' to all servers, servers will send it to subscribers who connects to them
+before server failed, it will send its ip to subscriber who connects to the server.
+when sub receive the message that a server failed, it will delete the the IP of the failed server and remap, then send the IP of failed server to other servers
+when other server receive the message that a server failed, they will remap the hashring.
