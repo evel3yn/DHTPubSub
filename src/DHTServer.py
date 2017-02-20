@@ -19,14 +19,12 @@ socket.setsockopt(zmq.SUBSCRIBE, '')
 socket2 = context.socket(zmq.PUB)
 socket2.bind("tcp://*:5550")
 
-#sub send the failed server ip
-
-#send the ip of all server
+#argument: the ip of all server
 #first is ip of this server
 addStr=[]
 for i in range(1,len(sys.argv)):
     srv_addr = sys.argv[i]
-    addStr.append("tcp://" + srv_addr + ":5556")
+    addStr.append(srv_addr)
 
 #hashring
 ring = HashRing(addStr)
@@ -98,14 +96,17 @@ while shutDownTime<1000000000:
         # blocking is default
         string = socket.recv_string()
         print ("received message")
+        #if pubfailed
         if string.count(' ')==1:
             socket2.send_string("%s" %(string))
             continue
+        #if other server failed, need remap
         if string.count(' ')==2:
             num1, failedIp,num2=string.split()
             #need remap
-            addStr.remove(failedIp)
-            ring=HashRing(addStr)
+            if failedIp in addStr:
+                addStr.remove(failedIp)
+                ring=HashRing(addStr)
             continue
         # receive the message
         zipcode, temperature, relhumidity, strength = string.split()
