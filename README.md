@@ -7,4 +7,11 @@ Python has a package called hash_ring, which you can install using pip. Hash rin
 This project consistes of three files: publisher.py, DHTServer.py, subscriber.py
 The argument of publisher.py: strength, all of the server IP
 The argument of DHTServer.py: all of the server IP
-The argument of subscriber.py: filter, allof the server IP
+The argument of subscriber.py: filter, all of the server IP
+
+In publisher.py file, we use socket(PUB) connect all server using 5556 port.
+In DHTServer.py file, we use two sockets. socket(SUB), this socket bind all IP using port 5556; socket2(PUB), this socket bind all IP using port 5550
+In subscriber.py file, we use two sockets. socket(SUB), connects to the server which stores the subscribed topic using port 5550; solverSocket(PUB), connects all servers except failed one using port 5556
+
+before publisher failed, it will send the topic and string 'pubfailed' to all servers, servers will send it to subscribers who
+before server failed, it will send its ip

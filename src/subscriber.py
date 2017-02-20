@@ -52,7 +52,9 @@ while True:
     # pub failed
     if numBlank == 1:
         print("pub failed")
-        break
+        failedtopic, failedstring=string.split()
+        if failedtopic==zip_filter:
+            break
 
     if numBlank == 6:
         zipcodeStr, temperatureStr, relhumidityStr, strengthStr, zipHisStr, temHisStr, relHisStr = string.split()
