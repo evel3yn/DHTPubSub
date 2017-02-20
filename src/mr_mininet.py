@@ -49,7 +49,7 @@ def parseCmdLineArgs():
 
     # add optional arguments
     parser.add_argument("-p", "--masterport", type=int, default=5557, help="Wordcount master port number, default 5557")
-    parser.add_argument("-r", "--racks", type=int, choices=[1, 2, 3], default=1,
+    parser.add_argument("-r", "--racks", type=int, choices=[1, 2, 3, 4, 5, 6], default=1,
                         help="Number of racks, choices 1, 2 or 3")
     parser.add_argument("-M", "--map", type=int, default=10, help="Number of Map jobs, default 10")
     parser.add_argument("-R", "--reduce", type=int, default=3, help="Number of Reduce jobs, default 3")

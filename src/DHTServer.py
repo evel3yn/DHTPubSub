@@ -113,7 +113,7 @@ while shutDownTime < 1000000000:
         # receive the message
         zipcode, temperature, relhumidity, strength = string.split()
         server = ring.get_node(zipcode)
-        if server != addStr[1]:
+        if server != addStr[0]:
             continue
         else:
             # store the data
@@ -157,6 +157,13 @@ while shutDownTime < 1000000000:
     # get rid of the repeated topic hisList elements.
     # get all the zipcode
     zipList = [hisList[0].zipcode, hisList[1].zipcode, hisList[2].zipcode, hisList[3].zipcode, hisList[4].zipcode]
+
+
+
+    print zipList
+
+
+
     # get all the strength
     strengList = [hisList[0].strength, hisList[1].strength, hisList[2].strength, hisList[3].strength,
                   hisList[4].strength]
@@ -178,8 +185,9 @@ while shutDownTime < 1000000000:
             indexList.pop(maxindex)
             # pop up these repeated hisList elemtents
             # sort the index reversely
-            reverseIndexList = reversed(sorted(indexList))
-            for index in reverseIndexList:
+            sortedIndexList = sorted(indexList)
+            sortedIndexList.reverse()
+            for index in sortedIndexList:
                 hisList.pop(index)
 
     # send all history

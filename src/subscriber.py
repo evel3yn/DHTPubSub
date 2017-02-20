@@ -18,7 +18,7 @@ ring = HashRing(addStr)
 zip_filter = sys.argv[1] if len(sys.argv) > 1 else "10001"
 # if isinstance(zip_filter, bytes):
 #     zip_filter = zip_filter.decode('ascii')
-socket.setsockopt_string(zmq.SUBSCRIBE, '')
+socket.setsockopt(zmq.SUBSCRIBE, '')
 
 server = ring.get_node(zip_filter)
 
@@ -32,9 +32,9 @@ while True:
     print("ready to receive")
     string = socket.recv()
     print("message received")
-
+    numBlank=string.count(' ')
     # server failed
-    if string.count(' ') == 0:
+    if numBlank== 0:
         # string is ip of failed server
         # remap
         addStr.remove(string)
@@ -50,12 +50,14 @@ while True:
         continue
 
     # pub failed
-    if string.count(' ') == 1:
+    if numBlank == 1:
+        print("pub failed")
         break
 
-    if string.count(' ') == 6:
+    if numBlank == 6:
         zipcodeStr, temperatureStr, relhumidityStr, strengthStr, zipHisStr, temHisStr, relHisStr = string.split()
         if zipcodeStr != zip_filter:
+            print ("this is not I want")
             continue
         # receive history
         zip[0], zip[1], zip[2], zip[3], zip[4] = zipHisStr.split("/")
