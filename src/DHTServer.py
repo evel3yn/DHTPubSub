@@ -158,12 +158,6 @@ while shutDownTime < 1000000000:
     # get all the zipcode
     zipList = [hisList[0].zipcode, hisList[1].zipcode, hisList[2].zipcode, hisList[3].zipcode, hisList[4].zipcode]
 
-
-
-    print zipList
-
-
-
     # get all the strength
     strengList = [hisList[0].strength, hisList[1].strength, hisList[2].strength, hisList[3].strength,
                   hisList[4].strength]
@@ -189,6 +183,7 @@ while shutDownTime < 1000000000:
             sortedIndexList.reverse()
             for index in sortedIndexList:
                 hisList.pop(index)
+                zipList.pop(index)
 
     # send all history
     for his in hisList:
