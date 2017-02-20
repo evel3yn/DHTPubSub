@@ -4,4 +4,7 @@ In this assignment we will build upon Assignment #1. Keep all the properties sup
 You have two choices in doing the information dissemination. If you want to use the event service, the publisher will just send its publication to the event service node that was responsible for registering it. You should know this from the return value of the register () message. That event service then sends the info to the registered subscribers. Alternately, subscribers can do a “lookup” for a publisher who satisfies their needs and connects to that publisher under the hood (as part of the middleware layer). But you will need to handle failures of publishers.
 Python has a package called hash_ring, which you can install using pip. Hash ring implements consistent hashing. Please see https://pypi.python.org/pypi/hash_ring for a simple sample code on how to use the hash function.
 
-This project consistes of three files: pulisher.py, DHTServer.py, subscriber.py
+This project consistes of three files: publisher.py, DHTServer.py, subscriber.py
+The argument of publisher.py: strength, all of the server IP
+The argument of DHTServer.py: all of the server IP
+The argument of subscriber.py: filter, allof the server IP
