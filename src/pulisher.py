@@ -3,6 +3,8 @@ import zmq
 import sys
 from random import randrange
 
+randnum=randrange(50,100)
+
 context = zmq.Context()
 
 socket = context.socket(zmq.PUB)
@@ -16,10 +18,16 @@ zipcode = 37215
 # second argument is strength of pub, 0~...
 strength = int(sys.argv[2]) if len(sys.argv) > 2 else 0
 
-while True:
+ShutDownTime=0
+while ShutDownTime<1000000000:
     temperature = randrange(-80, 135)
     relhumidity = randrange(10, 60)
 
     socket.send_string("%i %i %i %i" % (zipcode, temperature, relhumidity, strength))
     # print "send messages"
     sleep(1)
+
+    if ShutDownTime==randnum:
+        failedstr='pubfailed'
+        socket.send_string("%i %s" %(zipcode,failedstr))
+        break

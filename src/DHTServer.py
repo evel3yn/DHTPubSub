@@ -3,6 +3,9 @@ import zmq
 import Queue
 import sys
 from hash_ring import HashRing
+from random import randrange
+
+randnum=randrange(50,1000)
 #connext the socket
 context = zmq.Context()
 
@@ -85,8 +88,8 @@ class History:
         self.temHis = temH
         self.relHis = relH
 ##########################################################################################################
-
-while True:
+shutDownTime=0
+while shutDownTime<1000000000:
     i=0
     # 5 History object
     hisList = []
@@ -95,6 +98,15 @@ while True:
         # blocking is default
         string = socket.recv_string()
         print ("received message")
+        if string.count(' ')==1:
+            socket2.send_string("%s" %(string))
+            continue
+        if string.count(' ')==2:
+            num1, failedIp,num2=string.split()
+            #need remap
+            addStr.remove(failedIp)
+            ring=HashRing(addStr)
+            continue
         # receive the message
         zipcode, temperature, relhumidity, strength = string.split()
         server = ring.get_node(zipcode)
@@ -169,7 +181,17 @@ while True:
 
     # send all history
     for his in hisList:
+        if shutDownTime == randnum:
+            failedServerStr = 'serverfailed'
+            socket2.send_string("%i %s" % (his.zipcode, sys.argv[1]))
         # send last 5 infor (if repeated, not send)
         socket2.send_string("%i %i %i %i %s %s %s" % (
             his.zipcode, his.temperature, his.relhumidity, his.strength, his.zipHis, his.temHis, his.relHis))
         print ("send message")
+
+    if shutDownTime == randnum:
+        break
+
+
+
+
