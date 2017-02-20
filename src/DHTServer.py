@@ -5,8 +5,8 @@ import sys
 from hash_ring import HashRing
 from random import randrange
 
-randnum=randrange(50,1000)
-#connext the socket
+randnum = randrange(50, 1000)
+# connext the socket
 context = zmq.Context()
 
 socket = context.socket(zmq.SUB)
@@ -19,17 +19,19 @@ socket.setsockopt(zmq.SUBSCRIBE, '')
 socket2 = context.socket(zmq.PUB)
 socket2.bind("tcp://*:5550")
 
-#argument: the ip of all server
-#first is ip of this server
-addStr=[]
-for i in range(1,len(sys.argv)):
+# argument: the ip of all server
+# first is ip of this server
+addStr = []
+for i in range(1, len(sys.argv)):
     srv_addr = sys.argv[i]
     addStr.append(srv_addr)
 
-#hashring
+# hashring
 ring = HashRing(addStr)
+
+
 ##########################################################################################################
-#function
+# function
 
 # False if no same zipcode
 # return all zipcode if it has same element
@@ -53,7 +55,7 @@ def getmax(indexList, strengList):
 
 
 ##########################################################################################################
-#data structures
+# data structures
 
 zipcodeArrayHis = Queue.Queue()
 temperatureArrayHis = Queue.Queue()
@@ -76,7 +78,6 @@ relNewHis = 0
 
 # store 5 messages in a class
 class History:
-
     def __init__(self, zipc, tem, rel, stren, zipH, temH, relH):
         self.zipcode = int(zipc)
         self.temperature = int(tem)
@@ -85,35 +86,37 @@ class History:
         self.zipHis = zipH
         self.temHis = temH
         self.relHis = relH
+
+
 ##########################################################################################################
-shutDownTime=0
-while shutDownTime<1000000000:
-    i=0
+shutDownTime = 0
+while shutDownTime < 1000000000:
+    i = 0
     # 5 History object
     hisList = []
-    while i<5:
+    while i < 5:
         print ("ready to receive")
         # blocking is default
         string = socket.recv_string()
         print ("received message")
-        #if pubfailed
-        if string.count(' ')==1:
-            socket2.send_string("%s" %(string))
+        # if pubfailed
+        if string.count(' ') == 1:
+            socket2.send_string("%s" % (string))
             continue
-        #if other server failed, need remap
-        if string.count(' ')==0:
-            #need remap
+        # if other server failed, need remap
+        if string.count(' ') == 0:
+            # need remap
             if string in addStr:
                 addStr.remove(string)
-                ring=HashRing(addStr)
+                ring = HashRing(addStr)
             continue
         # receive the message
         zipcode, temperature, relhumidity, strength = string.split()
         server = ring.get_node(zipcode)
-        if server!=addStr[1]:
+        if server != addStr[1]:
             continue
         else:
-            #store the data
+            # store the data
             # push in the new history
             zipcodeArrayHis.put(zipNewHis)
             temperatureArrayHis.put(temNewHis)
@@ -191,7 +194,3 @@ while shutDownTime<1000000000:
 
     if shutDownTime == randnum:
         break
-
-
-
-

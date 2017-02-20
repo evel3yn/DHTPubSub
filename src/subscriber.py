@@ -5,16 +5,16 @@ from hash_ring import HashRing
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
 
-#argument: the ip of all server
-addStr=[]
-for i in range(2,len(sys.argv)):
+# argument: the ip of all server
+addStr = []
+for i in range(2, len(sys.argv)):
     srv_addr = sys.argv[i]
     addStr.append(srv_addr)
 
-#hashring
+# hashring
 ring = HashRing(addStr)
 
-#filter
+# filter
 zip_filter = sys.argv[1] if len(sys.argv) > 1 else "10001"
 # if isinstance(zip_filter, bytes):
 #     zip_filter = zip_filter.decode('ascii')
@@ -33,8 +33,8 @@ while True:
     string = socket.recv()
     print("message received")
 
-    #server failed
-    if string.count(' ')==0:
+    # server failed
+    if string.count(' ') == 0:
         # string is ip of failed server
         # remap
         addStr.remove(string)
@@ -49,14 +49,13 @@ while True:
         socket.send_string("%s" % string)
         continue
 
-    #pub failed
-    if string.count(' ')==1:
+    # pub failed
+    if string.count(' ') == 1:
         break
 
-
-    if string.count(' ')==6:
+    if string.count(' ') == 6:
         zipcodeStr, temperatureStr, relhumidityStr, strengthStr, zipHisStr, temHisStr, relHisStr = string.split()
-        if zipcodeStr!=zip_filter:
+        if zipcodeStr != zip_filter:
             continue
         # receive history
         zip[0], zip[1], zip[2], zip[3], zip[4] = zipHisStr.split("/")
@@ -80,15 +79,3 @@ while True:
         print('This is received message')
         print("Topic: %s, Temperature: %s, Humidity: %s, Strength: %s" % (
             zipcodeStr, temperatureStr, relhumidityStr, strengthStr))
-
-
-
-
-
-
-
-
-
-
-
-
