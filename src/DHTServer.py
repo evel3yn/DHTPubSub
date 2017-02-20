@@ -101,11 +101,10 @@ while shutDownTime<1000000000:
             socket2.send_string("%s" %(string))
             continue
         #if other server failed, need remap
-        if string.count(' ')==2:
-            num1, failedIp,num2=string.split()
+        if string.count(' ')==0:
             #need remap
-            if failedIp in addStr:
-                addStr.remove(failedIp)
+            if string in addStr:
+                addStr.remove(string)
                 ring=HashRing(addStr)
             continue
         # receive the message
@@ -184,7 +183,7 @@ while shutDownTime<1000000000:
     for his in hisList:
         if shutDownTime == randnum:
             failedServerStr = 'serverfailed'
-            socket2.send_string("%i %s" % (his.zipcode, sys.argv[1]))
+            socket2.send_string("%s" % (sys.argv[1]))
         # send last 5 infor (if repeated, not send)
         socket2.send_string("%i %i %i %i %s %s %s" % (
             his.zipcode, his.temperature, his.relhumidity, his.strength, his.zipHis, his.temHis, his.relHis))
