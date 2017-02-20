@@ -2,6 +2,7 @@ from time import sleep
 import zmq
 import sys
 from random import randrange
+import time
 
 randnum = randrange(50, 100)
 
@@ -27,7 +28,7 @@ while ShutDownTime < 1000000000:
     temperature = randrange(-80, 135)
     relhumidity = randrange(10, 60)
 
-    socket.send_string("%i %i %i %i" % (zipcode, temperature, relhumidity, strength))
+    socket.send_string("%i %i %i %i %f" % (zipcode, temperature, relhumidity, strength,time.time()))
     # print "send messages"
     sleep(2)
 

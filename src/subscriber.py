@@ -1,6 +1,7 @@
 import zmq
 import sys
 from hash_ring import HashRing
+import time
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
@@ -56,8 +57,8 @@ while True:
         if failedtopic==zip_filter:
             break
 
-    if numBlank == 6:
-        zipcodeStr, temperatureStr, relhumidityStr, strengthStr, zipHisStr, temHisStr, relHisStr = string.split()
+    if numBlank == 7:
+        zipcodeStr, temperatureStr, relhumidityStr, strengthStr, timeStr, zipHisStr, temHisStr, relHisStr = string.split()
         if zipcodeStr != zip_filter:
             print ("this is not I want")
             continue
@@ -79,7 +80,8 @@ while True:
             print("%ith temperature is %i" % (a, temInt[l]))
             print("%ith relhumidity is %i" % (a, relInt[l]))
             a += 1
-
+        timeSub=time.time()
+        timeUse=float(timeStr-timeSub)
         print('This is received message')
-        print("Topic: %s, Temperature: %s, Humidity: %s, Strength: %s" % (
-            zipcodeStr, temperatureStr, relhumidityStr, strengthStr))
+        print("Topic: %s, Temperature: %s, Humidity: %s, Strength: %s timeusing: %f" % (
+            zipcodeStr, temperatureStr, relhumidityStr, strengthStr, timeUse))
