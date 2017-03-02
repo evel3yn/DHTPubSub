@@ -59,7 +59,7 @@ while True:
     if numBlank == 6:
         zipcodeStr, temperatureStr, relhumidityStr, strengthStr, zipHisStr, temHisStr, relHisStr = string.split()
         if zipcodeStr != zip_filter:
-            print ("this is not I want")
+            print ("%s is not I want" % zipcodeStr)
             continue
         # receive history
         zip[0], zip[1], zip[2], zip[3], zip[4] = zipHisStr.split("/")
