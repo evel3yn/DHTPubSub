@@ -78,11 +78,12 @@ relNewHis = 0
 
 # store 5 messages in a class
 class History:
-    def __init__(self, zipc, tem, rel, stren, zipH, temH, relH):
+    def __init__(self, zipc, tem, rel, stren, tim, zipH, temH, relH):
         self.zipcode = int(zipc)
         self.temperature = int(tem)
         self.relhumidity = int(rel)
         self.strength = int(stren)
+        self.timePub=float(tim)
         self.zipHis = zipH
         self.temHis = temH
         self.relHis = relH
@@ -111,7 +112,7 @@ while shutDownTime < 1000000000:
                 ring = HashRing(addStr)
             continue
         # receive the message
-        zipcode, temperature, relhumidity, strength = string.split()
+        zipcode, temperature, relhumidity, strength, timePub = string.split()
         server = ring.get_node(zipcode)
         if server != addStr[0]:
             continue
@@ -150,7 +151,7 @@ while shutDownTime < 1000000000:
             relHis = '/'.join(str(e) for e in tempt)
 
             # store the message in class array
-            hisList.append(History(zipcode, temperature, relhumidity, int(strength), zipHis, temHis, relHis))
+            hisList.append(History(zipcode, temperature, relhumidity, int(strength), float(timePub), zipHis, temHis, relHis))
 
             i += 1
 
@@ -191,8 +192,8 @@ while shutDownTime < 1000000000:
             failedServerStr = 'serverfailed'
             socket2.send_string("%s" % (sys.argv[1]))
         # send last 5 infor (if repeated, not send)
-        socket2.send_string("%i %i %i %i %s %s %s" % (
-            his.zipcode, his.temperature, his.relhumidity, his.strength, his.zipHis, his.temHis, his.relHis))
+        socket2.send_string("%i %i %i %i %f %s %s %s" % (
+            his.zipcode, his.temperature, his.relhumidity, his.strength, his.timePub, his.zipHis, his.temHis, his.relHis))
         print ("send message")
 
     if shutDownTime == randnum:
