@@ -33,7 +33,6 @@ ring = HashRing(addStr)
 ##########################################################################################################
 # function
 
-# False if no same zipcode
 # return all zipcode if it has same element
 def checksame(zlist):
     retlist = []
@@ -113,6 +112,9 @@ while shutDownTime < 1000000000:
             continue
         # receive the message
         zipcode, temperature, relhumidity, strength, timePub = string.split()
+        #####################################################################################
+        print(zipcode)
+        #####################################################################################
         server = ring.get_node(zipcode)
         if server != addStr[0]:
             continue
@@ -182,9 +184,11 @@ while shutDownTime < 1000000000:
             # sort the index reversely
             sortedIndexList = sorted(indexList)
             sortedIndexList.reverse()
+            print(zipList)
             for index in sortedIndexList:
                 hisList.pop(index)
                 zipList.pop(index)
+                print(zipList)
 
     # send all history
     for his in hisList:

@@ -81,7 +81,8 @@ while True:
             print("%ith relhumidity is %i" % (a, relInt[l]))
             a += 1
         timeSub=time.time()
-        timeUse=float(timeStr-timeSub)
+        timeFlo=float(timeStr)
+        timeUse=float(timeFlo-timeSub)
         print('This is received message')
         print("Topic: %s, Temperature: %s, Humidity: %s, Strength: %s timeusing: %f" % (
             zipcodeStr, temperatureStr, relhumidityStr, strengthStr, timeUse))

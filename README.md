@@ -12,9 +12,9 @@ Python has a package called hash_ring, which you can install using pip. Hash rin
 This project consistes of three files: publisher.py, DHTServer.py, subscriber.py
 
 ###Arguments
-The argument of publisher.py: strength, all of the server IP
+The argument of publisher.py: strength, zipcode, all of the server IP
 
-The argument of DHTServer.py: all of the server IP
+The argument of DHTServer.py: all of the server IP, first is its own IP
 
 The argument of subscriber.py: filter, all of the server IP
 
